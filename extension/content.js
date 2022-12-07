@@ -212,38 +212,38 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
       m = window.location.href.match(regex);
       console.log("URL", window.location.href, regex, m.input);
       var data = new URLSearchParams();
-      data.set("url", m.input);
+      data.set("listing_url", m.input);
 
-      // fetch("http://localhost:5000.com", {
-      //   method: "POST",
-      //   mode: "no-cors",
-      //   cache: "no-cache",
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded",
-      //   },
-      //   body: data,
-      // }).then(function (response) {
-      //   // check the response object for result
-      //   const imagePoster = document.querySelectorAll(
-      //     "div[data-buying-option-index='0']"
-      //   );
-      //  // const letters = ["A", "B", "C", "D", "E"];
-      //   for (i = 0; i < imagePoster.length; i++) {
-      //     if (imagePoster[i].getElementsByClassName("prod-rating")[0] == null) {
-      //       console.log("IMAGEEEEEEE******", imagePoster);
-      //       var rating = document.createElement("span");
+      fetch("http://127.0.0.1:5000/scrape/1", {
+        method: "POST",
+        mode: "no-cors",
+        
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify({ "listing_url": m.input }),
+      }).then(function (response) {
+        // check the response object for result
+        // const imagePoster = document.querySelectorAll(
+        //   "div[class='a-section a-spacing-none a-padding-none']"
+        // )[0]
+        // console.log(imagePoster)
+        // const letters = ["A", "B", "C", "D", "E"];
+        // // for (i = 0; i < imagePoster.length; i++) {
+        //   if (document.getElementsByClassName("prod-rating").length == 0) {
+        //     console.log("IMAGEEEEEEE******", imagePoster);
+        //     var rating = document.createElement("span");
+  
+        //     rating.className = "prod-rating";
+        //     rating.style.cssText =
+        //       '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+        //     //const random = Math.floor(Math.random() * letters.length);
+        //     rating.innerHTML = response;
+        //     console.log("RATINGGG3", rating);
+        //     imagePoster.prepend(rating);
+        //     console.log("HEREEEEEE", imagePoster);
+        //   }
 
-      //       rating.className = "prod-rating";
-      //       rating.style.cssText =
-      //         '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
-      //       //const random = Math.floor(Math.random() * letters.length);
-      //       rating.innerHTML = response;
-      //       console.log("RATINGGG3", rating);
-      //       imagePoster[i].prepend(rating);
-      //       console.log("HEREEEEEE", imagePoster);
-      //     }
-      //   }
-      // });
+        console.log({response})
+      });
 
 
       const imagePoster = document.querySelectorAll(

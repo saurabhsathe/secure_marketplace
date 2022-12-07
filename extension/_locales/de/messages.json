@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "Standard Sortierreihenfolge durch Amazon"
+    },
+    "appDesc": {
+        "message": "Erweiterung um die Standard Sortierreihenfolge für die Produktsuche auf den Seiten von Amazon zu ändern."
+    },
+    "changeSortLabel": {
+        "message": "Standard Sortierreihenfolge"
+    },
+    "featured": {
+        "message": "Amazon präsentiert"
+    },
+    "lowToHigh": {
+        "message": "Preis: aufsteigend"
+    },
+    "highToLow": {
+        "message": "Preis: absteigend"
+    },
+    "customerReview": {
+        "message": "Kundenbewertung"
+    },
+    "newestArrivals": {
+        "message": "Neu eingetroffen"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "Aus/An"
+    }
+}

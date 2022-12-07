@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "Varsayılan Amazon Sıralaması"
+    },
+    "appDesc": {
+        "message": "Ürün aramalarında varsayılan Amazon sıralama türünü değiştirebileceğiniz bir eklentidir."
+    },
+    "changeSortLabel": {
+        "message": "Varsayılan Sıralama"
+    },
+    "featured": {
+        "message": "Amazon sunar"
+    },
+    "lowToHigh": {
+        "message": "Fiyat: Düşükten Yükseğe"
+    },
+    "highToLow": {
+        "message": "Fiyat: Yüksekten Düşüğe"
+    },
+    "customerReview": {
+        "message": "Müşteri Yorumu"
+    },
+    "newestArrivals": {
+        "message": "En Yeniler"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "Kapalı/Açık"
+    }
+}

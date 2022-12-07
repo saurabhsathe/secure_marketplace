@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "Orden por defecto de Amazon"
+    },
+    "appDesc": {
+        "message": "Extensión para cambiar el método de ordenación por defecto para búsqueda de productos en las páginas web de Amazon."
+    },
+    "changeSortLabel": {
+        "message": "Orden por defecto"
+    },
+    "featured": {
+        "message": "Destacados"
+    },
+    "lowToHigh": {
+        "message": "Precio: de más bajo a más alto"
+    },
+    "highToLow": {
+        "message": "Precio: de más alto a más bajo"
+    },
+    "customerReview": {
+        "message": "Valoración media de los clientes"
+    },
+    "newestArrivals": {
+        "message": "Novedades"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "OFF/ON"
+    }
+}

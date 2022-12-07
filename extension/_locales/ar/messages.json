@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "الفرز الأمازون الافتراضي"
+    },
+    "appDesc": {
+        "message": "ملحق لتغيير طريقة الفرز الافتراضية لعمليات البحث عن المنتجات على مواقع الأمازون"
+    },
+    "changeSortLabel": {
+        "message": "ترتيب الفرز الافتراضي"
+    },
+    "featured": {
+        "message": "الخيارات المميزة"
+    },
+    "lowToHigh": {
+        "message": "السعر: من الأقل إلى الأكثر"
+    },
+    "highToLow": {
+        "message": "السعر: من الأكثر إلى الأقل"
+    },
+    "customerReview": {
+        "message": "معدل التقييم"
+    },
+    "newestArrivals": {
+        "message": "أحدث ما وصل"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "OFF/ON"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "ऐमज़ान क्रम परिवर्तन"
+    },
+    "appDesc": {
+        "message": "ऐमज़ान के वेबसाईट पर आपके खोजे हुए समान के परिणाम वास्तविकता में ऐमज़ान के तय किए हुए क्रम में दिखाए जाते हैं। उस क्रम का चयन स्वयं करने के लिए इस इक्स्टेन्शन का प्रयोग करें। "
+    },
+    "changeSortLabel": {
+        "message": "पसंदीदा क्रम"
+    },
+    "featured": {
+        "message": "विशेष"
+    },
+    "lowToHigh": {
+        "message": "कीमत: कम से ज्यादा"
+    },
+    "highToLow": {
+        "message": "कीमत: ज्यादा से कम"
+    },
+    "customerReview": {
+        "message": "औसत ग्राहक रेटिंग"
+    },
+    "newestArrivals": {
+        "message": "नवीनतम आए हुए सामान"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "OFF/ON"
+    }
+}

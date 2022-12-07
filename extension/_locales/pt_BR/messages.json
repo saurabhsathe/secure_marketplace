@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "Ordenação Padrão Amazon"
+    },
+    "appDesc": {
+        "message": "Extensão para alteração da ordenação padrão nas buscas no site da Amazon"
+    },
+    "changeSortLabel": {
+        "message": "Ordenação Padrão"
+    },
+    "featured": {
+        "message": "Destaques"
+    },
+    "lowToHigh": {
+        "message": "Preço: baixo a alto"
+    },
+    "highToLow": {
+        "message": "Preço: alto a baixo"
+    },
+    "customerReview": {
+        "message": "Avaliação dos clientes (média)"
+    },
+    "newestArrivals": {
+        "message": "Produtos mais novos"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "Desabilitar/Habilitar"
+    }
+}

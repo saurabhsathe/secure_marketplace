@@ -1,0 +1,32 @@
+{
+    "appName": {
+        "message": "Classement des resultats de recherche par default pour Amazon"
+    },
+    "appDesc": {
+        "message": "Extension pour les sites web Amazon visant a changé la methode de classement par default des resultats de recherche."
+    },
+    "changeSortLabel": {
+        "message": "Classer par:"
+    },
+    "featured": {
+        "message": "Amazon présente"
+    },
+    "lowToHigh": {
+        "message": "Prix : par ordre croissant"
+    },
+    "highToLow": {
+        "message": "Prix : par ordre décroissant"
+    },
+    "customerReview": {
+        "message": "Note moyenne des commentaires"
+    },
+    "newestArrivals": {
+        "message": "Dernières nouveautés"
+    },
+    "primeOnlyLabel": {
+        "message": "Prime"
+    },
+    "switchLabel": {
+        "message": "désactiver/Activer"
+    }
+}
