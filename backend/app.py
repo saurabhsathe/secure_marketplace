@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, json 
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
+from ml.main import test_authenticity
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -25,3 +26,16 @@ def scrape_listing(page_no):
     reviews = "N"
     print(reviews)
     return jsonify(reviews), 200
+
+
+@app.route("/predict",methods=['POST'])
+def predict_ratings():
+ 
+    data = request.get_json(force=True)
+    print(data["reviews"])
+    reviews = data["reviews"]
+    return jsonify(reviews), 200
+
+
+
+
