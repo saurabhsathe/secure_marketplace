@@ -4,6 +4,7 @@ let changeSort = document.getElementById("changeSort");
 let primeOnlyEnabledCheckbox = document.getElementById("primeOnlyEnabled");
 let extensionEnabledCheckbox = document.getElementById("extensionEnabled");
 let ratingsEnabledCheckbox = document.getElementById("ratingsEnabled");
+let ratingsEnabledCheckboxWalmart = document.getElementById("ratingsEnabledWalmart");
 let sortDictionary;
 
 chrome.storage.sync.get("order", function (data) {
@@ -25,6 +26,10 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
 chrome.storage.sync.get("ratingsEnabled", function (data) {
   ratingsEnabledCheckbox.checked = data.ratingsEnabled;
   console.log("RATINGSSS !", data.ratingsEnabled);
+});
+chrome.storage.sync.get("ratingsEnabledWalmart", function (data) {
+  ratingsEnabledCheckboxWalmart.checked = data.ratingsEnabledWalmart;
+  console.log("RATINGSSSZ WALMART!", data.ratingsEnabledWalmart);
 });
 
 changeSort.addEventListener("change", function () {
@@ -70,6 +75,23 @@ ratingsEnabledCheckbox.addEventListener("change", function () {
     { ratingsEnabled: ratingsEnabledCheckbox.checked },
     function () {
       console.log(`ratingsEnabled is set to ${ratingsEnabledCheckbox.checked}`);
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.executeScript(
+          tabs[0].id,
+          { file: "content.js" },
+          () => chrome.runtime.lastError
+        );
+      });
+    }
+  );
+});
+
+//WALMART
+ratingsEnabledCheckboxWalmart.addEventListener("change", function () {
+  chrome.storage.sync.set(
+    { ratingsEnabledWalmart: ratingsEnabledCheckboxWalmart.checked },
+    function () {
+      console.log(`ratingsEnabledWalmart is set to ${ratingsEnabledCheckboxWalmart.checked}`);
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.executeScript(
           tabs[0].id,

@@ -45,6 +45,10 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ratingsEnabled: true }, function () {
     console.log(`ratingsEnabled is set to true`);
   });
+  chrome.storage.sync.set({ ratingsEnabledWalmart: true }, function () {
+    console.log(`ratingsEnabledWalmart is set to true`);
+  });
+  
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([
       {

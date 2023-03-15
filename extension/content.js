@@ -36,7 +36,7 @@ function collectItems() {
 
         var myObject = {
           ratingKey: rating,
-          itemKey: item,
+          itemKey: item
         };
         sortedItems.push(myObject);
       }
@@ -195,6 +195,7 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
         }
       }
     });
+
     chrome.storage.sync.get("primeOnlyEnabled", function (data) {
       if (
         document.querySelectorAll("[type= checkbox]")[0].checked !=
@@ -204,69 +205,130 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
       }
     });
   }
-  
-    if (data.extensionEnabled == true) {
-      console.log("URL");
-      var regex = RegExp("/([a-zA-Z0-9]{10})(?:[/?]|$)");
-
-      m = window.location.href.match(regex);
-      console.log("URL", window.location.href, regex, m.input);
-      var data = new URLSearchParams();
-      data.set("listing_url", m.input);
-
-      fetch("http://127.0.0.1:5000/scrape/1", {
-        method: "POST",
-        mode: "no-cors",
-        
-        headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify({ "listing_url": m.input }),
-      }).then(function (response) {
-        // check the response object for result
-        // const imagePoster = document.querySelectorAll(
-        //   "div[class='a-section a-spacing-none a-padding-none']"
-        // )[0]
-        // console.log(imagePoster)
-        // const letters = ["A", "B", "C", "D", "E"];
-        // // for (i = 0; i < imagePoster.length; i++) {
-        //   if (document.getElementsByClassName("prod-rating").length == 0) {
-        //     console.log("IMAGEEEEEEE******", imagePoster);
-        //     var rating = document.createElement("span");
-  
-        //     rating.className = "prod-rating";
-        //     rating.style.cssText =
-        //       '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
-        //     //const random = Math.floor(Math.random() * letters.length);
-        //     rating.innerHTML = response;
-        //     console.log("RATINGGG3", rating);
-        //     imagePoster.prepend(rating);
-        //     console.log("HEREEEEEE", imagePoster);
-        //   }
-
-        console.log({response})
-      });
-
-
-      const imagePoster = document.querySelectorAll(
-        "div[class='a-section a-spacing-none a-padding-none']"
-      )[0]
-      console.log(imagePoster)
-      const letters = ["A", "B", "C", "D", "E"];
-      // for (i = 0; i < imagePoster.length; i++) {
-        if (document.getElementsByClassName("prod-rating").length == 0) {
+  if (
+    data.extensionEnabled == true &&
+    window.location.pathname.includes("/dp/")
+  ) {
+    chrome.storage.sync.get("ratingsEnabled", function (data) {
+      console.log("RATINGSSSSS ENABLEDD DP******");
+      if (data.ratingsEnabled == true) {
+        const imagePoster = document.querySelectorAll(
+          "div[class='a-box-inner']"
+        );
+        console.log("IMAGEEEEEEE******", imagePoster);
+        const letters = ["A", "B", "C", "D", "E"];
+        const i = 0;
+        if (imagePoster[i].getElementsByClassName("prod-rating")[0] == null) {
           console.log("IMAGEEEEEEE******", imagePoster);
           var rating = document.createElement("span");
 
           rating.className = "prod-rating";
           rating.style.cssText =
-            '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+            '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
           const random = Math.floor(Math.random() * letters.length);
           rating.innerHTML = letters[random];
-          console.log("RATINGGG3", rating);
-          imagePoster.prepend(rating);
+          console.log("PRODUCT RATING", rating);
+          imagePoster[i].prepend(rating);
+          var subHead = document.createElement("span");
+          subHead.className = "sub-head";
+          subHead.innerHTML = "Secure Marketplace Rating";
+
+          imagePoster[i].prepend(rating);
+          imagePoster[i].prepend(subHead);
           console.log("HEREEEEEE", imagePoster);
         }
-      //}
-      
+      }
+    });
+  }
+
+  chrome.storage.sync.get("ratingsEnabledWalmart", function (data) {
+    if (
+      // data.extensionEnabled == true &&
+      window.location.pathname == "/search"
+    ) {
+      if (data.ratingsEnabledWalmart == true) {
+        const imagePoster = document.querySelectorAll(
+          '[data-testid="list-view"]'
+        );
+        const letters = ["A", "B", "C", "D", "E"];
+        for (i = 0; i < imagePoster.length; i++) {
+          if (imagePoster[i].getElementsByClassName("prod-rating")[0] == null) {
+            console.log("IMAGEEEEEEE******", imagePoster);
+            var rating = document.createElement("span");
+
+            rating.className = "prod-rating";
+            rating.style.cssText =
+              '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+            const random = Math.floor(Math.random() * letters.length);
+            rating.innerHTML = letters[random];
+            console.log("RATINGGG WALMARTSS", rating);
+            imagePoster[i].prepend(rating);
+            console.log("HEREEEEEE", imagePoster);
+          }
+        }
+      }
     }
-  ;
+  });
+
+  // if (data.extensionEnabled == true) {
+  //   console.log('URL')
+  //   var regex = RegExp('/([a-zA-Z0-9]{10})(?:[/?]|$)')
+
+  //   m = window.location.href.match(regex)
+  //   console.log('URL', window.location.href, regex, m.input)
+  //   var data = new URLSearchParams()
+  //   data.set('listing_url', m.input)
+
+  //   fetch('http://127.0.0.1:5000/scrape/1', {
+  //     method: 'POST',
+  //     mode: 'no-cors',
+
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ listing_url: m.input })
+  //   }).then(function (response) {
+  //     // check the response object for result
+  //     // const imagePoster = document.querySelectorAll(
+  //     //   "div[class='a-section a-spacing-none a-padding-none']"
+  //     // )[0]
+  //     // console.log(imagePoster)
+  //     // const letters = ["A", "B", "C", "D", "E"];
+  //     // // for (i = 0; i < imagePoster.length; i++) {
+  //     //   if (document.getElementsByClassName("prod-rating").length == 0) {
+  //     //     console.log("IMAGEEEEEEE******", imagePoster);
+  //     //     var rating = document.createElement("span");
+
+  //     //     rating.className = "prod-rating";
+  //     //     rating.style.cssText =
+  //     //       '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+  //     //     //const random = Math.floor(Math.random() * letters.length);
+  //     //     rating.innerHTML = response;
+  //     //     console.log("RATINGGG3", rating);
+  //     //     imagePoster.prepend(rating);
+  //     //     console.log("HEREEEEEE", imagePoster);
+  //     //   }
+
+  //     console.log({ response })
+  //   })
+
+  //   const imagePoster = document.querySelectorAll(
+  //     "div[class='a-section a-spacing-none a-padding-none']"
+  //   )[0]
+  //   console.log(imagePoster)
+  //   const letters = ['A', 'B', 'C', 'D', 'E']
+  //   // for (i = 0; i < imagePoster.length; i++) {
+  //   if (document.getElementsByClassName('prod-rating').length == 0) {
+  //     console.log('IMAGEEEEEEE******', imagePoster)
+  //     var rating = document.createElement('span')
+
+  //     rating.className = 'prod-rating'
+  //     rating.style.cssText =
+  //       '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;'
+  //     const random = Math.floor(Math.random() * letters.length)
+  //     rating.innerHTML = letters[random]
+  //     console.log('RATINGGG3', rating)
+  //     imagePoster.prepend(rating)
+  //     console.log('HEREEEEEE', imagePoster)
+  //   }
+  //   //}
+  // }
 });
