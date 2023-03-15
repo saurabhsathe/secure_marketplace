@@ -27,7 +27,7 @@ def scrape_listing(page_no):
     print(reviews)
     return jsonify(reviews), 200
 
-
+#this API will give us the results"
 @app.route("/predict",methods=['POST'])
 def predict_ratings():
  
