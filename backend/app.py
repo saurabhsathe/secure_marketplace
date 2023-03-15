@@ -34,7 +34,8 @@ def predict_ratings():
     data = request.get_json(force=True)
     print(data["reviews"])
     reviews = data["reviews"]
-    return jsonify(reviews), 200
+    x,y = test_authenticity(reviews)
+    return jsonify({"result":x,"percentage":y}), 200
 
 
 
