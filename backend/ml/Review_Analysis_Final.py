@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
+
 import warnings
 warnings.filterwarnings('ignore')
 from nltk.corpus import stopwords
@@ -25,14 +25,6 @@ nltk.download('wordnet')
 # In[2]:
 
 
-df = pd.read_csv('fake reviews dataset.csv')
-df.head()
-
-
-# In[3]:
-
-
-df.dropna(inplace=True)
 
 
 # In[8]:

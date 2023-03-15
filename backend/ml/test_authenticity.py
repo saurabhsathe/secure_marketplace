@@ -5,9 +5,8 @@ Created on Wed Dec  7 01:00:53 2022
 @author: 16692
 """
 
-import Review_Analysis_Final as model
+import ml.Review_Analysis_Final as model
 import pickle
-from Review_Analysis_Final import text_process
 sentences = ["This pillow saved my back. I love the look and feel of this pillow.","This is a soft pillow","This is really great"]
 
 

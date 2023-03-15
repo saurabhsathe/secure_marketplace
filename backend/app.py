@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify, json 
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
+
+
+
 from ml.main import test_authenticity
 app = Flask(__name__)
 cors = CORS(app)
