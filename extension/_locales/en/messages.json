@@ -28,5 +28,11 @@
     },
     "switchLabel": {
         "message": "OFF/ON"
+    },
+    "highToLowRating": {
+        "message": "Rating: High to Low"
+    },
+    "lowToHighRating": {
+        "message": "Rating: Low To High"
     }
 }

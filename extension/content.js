@@ -137,6 +137,28 @@ function highToLowRatingSort() {
 }
 
 chrome.storage.sync.get("extensionEnabled", function (data) {
+  if (data.extensionEnabled == false){
+    console.log("ext is off")
+    const imagePoster = document.querySelectorAll(
+      "span[data-component-type='s-product-image']"
+    );
+    console.log("ext is off", imagePoster)
+    for (i = 0; i < imagePoster.length; i++) {
+      if (imagePoster[i].getElementsByClassName("prod-rating")[0] != null) {
+        imagePoster[i].getElementsByClassName("prod-rating")[0].remove();
+      }
+    }
+
+    const img = document.querySelectorAll(
+      "div[class='a-section a-spacing-none a-padding-none']"
+    );
+    console.log("ext is off2", img)
+    for (i = 0; i < img.length; i++) {
+      if (img[i].getElementsByClassName("prod-rating")[0] != null) {
+        img[i].getElementsByClassName("prod-rating")[0].remove();
+      }
+    }
+  }
   if (data.extensionEnabled == true && window.location.pathname == "/s") {
     chrome.storage.sync.get("primeOnlyEnabled", function (data) {
       if (
@@ -185,7 +207,7 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
 
             rating.className = "prod-rating";
             rating.style.cssText =
-              '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+                  'width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;';
             const random = Math.floor(Math.random() * letters.length);
             rating.innerHTML = letters[random];
             console.log("RATINGGG3", rating);
@@ -244,9 +266,11 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
                 var rating = document.createElement("span");
 
                 rating.className = "prod-rating";
-                rating.style.cssText =
-                  '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
-                const random = Math.floor(Math.random() * letters.length);
+                //rating.style.cssText =
+                  //'-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+                  rating.style.cssText =
+                  'width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;';
+                  const random = Math.floor(Math.random() * letters.length);
                 rating.innerHTML = json.rating;
                 console.log("PRODUCT RATING", rating);
                 imagePoster[i].prepend(rating);
@@ -282,7 +306,7 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
 
             rating.className = "prod-rating";
             rating.style.cssText =
-              '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+                  'width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;';
             const random = Math.floor(Math.random() * letters.length);
             rating.innerHTML = letters[random];
             console.log("RATINGGG WALMARTSS", rating);
