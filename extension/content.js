@@ -212,31 +212,55 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
     chrome.storage.sync.get("ratingsEnabled", function (data) {
       console.log("RATINGSSSSS ENABLEDD DP******");
       if (data.ratingsEnabled == true) {
-        const imagePoster = document.querySelectorAll(
-          "div[class='a-box-inner']"
-        );
-        console.log("IMAGEEEEEEE******", imagePoster);
-        const letters = ["A", "B", "C", "D", "E"];
-        const i = 0;
-        if (imagePoster[i].getElementsByClassName("prod-rating")[0] == null) {
-          console.log("IMAGEEEEEEE******", imagePoster);
-          var rating = document.createElement("span");
+        console.log("URL in Fetch");
+        var regex = RegExp("/([a-zA-Z0-9]{10})(?:[/?]|$)");
 
-          rating.className = "prod-rating";
-          rating.style.cssText =
-            '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
-          const random = Math.floor(Math.random() * letters.length);
-          rating.innerHTML = letters[random];
-          console.log("PRODUCT RATING", rating);
-          imagePoster[i].prepend(rating);
-          var subHead = document.createElement("span");
-          subHead.className = "sub-head";
-          subHead.innerHTML = "Secure Marketplace Rating";
+        m = window.location.href.match(regex);
+        console.log("URL", window.location.href, regex, m.input);
+        var data = new URLSearchParams();
+        data.set("listing_url", m.input);
 
-          imagePoster[i].prepend(rating);
-          imagePoster[i].prepend(subHead);
-          console.log("HEREEEEEE", imagePoster);
-        }
+        fetch("http://127.0.0.1:5000/", {
+          method: "POST",
+          //mode: "no-cors",
+
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ listing_url: m.input })
+        }).then((response) => {
+          if (response.ok) {
+            response.json().then((json) => {
+              console.log(json);
+
+              const imagePoster = document.querySelectorAll(
+                "div[class='a-section a-spacing-none a-padding-none']"
+              );
+              console.log("IMAGEEEEEEE******", imagePoster);
+              const letters = ["A", "B", "C", "D", "E"];
+              const i = 0;
+              if (
+                imagePoster[i].getElementsByClassName("prod-rating")[0] == null
+              ) {
+                console.log("IMAGEEEEEEE******", imagePoster);
+                var rating = document.createElement("span");
+
+                rating.className = "prod-rating";
+                rating.style.cssText =
+                  '-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
+                const random = Math.floor(Math.random() * letters.length);
+                rating.innerHTML = json.rating;
+                console.log("PRODUCT RATING", rating);
+                imagePoster[i].prepend(rating);
+                var subHead = document.createElement("span");
+                subHead.className = "sub-head";
+                subHead.innerHTML = "Secure Marketplace Rating";
+
+                imagePoster[i].prepend(rating);
+                imagePoster[i].prepend(subHead);
+                console.log("HEREEEEEE", imagePoster);
+              }
+            });
+          }
+        });
       }
     });
   }
