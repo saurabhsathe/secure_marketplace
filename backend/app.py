@@ -31,14 +31,13 @@ def home():
 
 @app.route("/scrape/<page_no>",methods=['POST'])
 def scrape_listing(page_no):
-    print(page_no)
+    #print(page_no)
     new_scraper = AmazonScraper()
-    print(request.get_json(force=True))
+    #print(request.get_json(force=True))
     data = request.get_json(force=True)
-    print(data, page_no)
+    #print(data, page_no)
     reviews = new_scraper.scrapeReviews(data['listing_url'], page_no)
-    reviews = "N"
-    print(reviews)
+    #print(reviews)
     return jsonify(reviews), 200
 
 #this API will give us the results"
@@ -46,7 +45,7 @@ def scrape_listing(page_no):
 def predict_ratings():
  
     data = request.get_json(force=True)
-    print(data["reviews"])
+    #print(data["reviews"])
     reviews = data["reviews"]
     x,y = test_authenticity(reviews,pipeline)
     return jsonify({"result":x,"percentage":y}), 200
