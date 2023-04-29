@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 17px;
+      }
+      
+      .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 13px;
+        width: 13px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+      
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+      
+      input:checked + .slider:before {
+        -webkit-transform: translateX(39px);
+        -ms-transform: translateX(39px);
+        transform: translateX(39px);
+      }
+      
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+      
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .checked {
+  color: orange;
+}
+.prod-rating{
+  -webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: space-between !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;
+}
+    </style>
+  </head>
+  <body>
+    <label for="changeSort" id="changeSortLabel"></label>
+    </br>
+    <select id="changeSort">
+      <option id="featured" value="featured"></option>
+      <option id="lowToHigh" value="lowToHigh"></option>
+      <option id="highToLow" value="highToLow"></option>
+      <option id="customerReview" value="customerReview"></option>
+      <option id="newestArrivals" value="newestArrivals"></option>
+      <option id="highToLowRating" value="highToLowRating"></option>
+      <option id="lowToHighRating" value="lowToHighRating"></option>
+    </select>
+    </br>
+    <p style="text-align:left;">
+      <label id="primeOnlyLabel"></label>
+      <span style="float:right;">
+        <label class="switch">
+          <input type="checkbox" id="primeOnlyEnabled">
+          <span class="slider round"></span>
+        </label>
+      </span>
+    </p>
+    <p style="text-align:left; border-top: gray 1px solid;">
+    </br>
+      <label id="switchLabel"></label>
+      <span style="float:right;">
+        <label class="switch">
+          <input type="checkbox" id="extensionEnabled">
+          <span class="slider round"></span>
+        </label>
+      </span>
+    </p>
+    <p style="text-align:left; border-top: gray 1px solid;">
+    </br>
+      <label id="switchLabel">Amazon</label>
+      <span style="float:right;">
+        <label class="switch">
+          <input type="checkbox" id="ratingsEnabled">
+          <span class="slider round"></span>
+        </label>
+      </span>
+    </p>
+  </br>
+  
+  </br>
+    <label id="switchLabel">Walmart</label>
+    <span style="float:right;">
+      <label class="switch">
+        <input type="checkbox" id="ratingsEnabledWalmart">
+        <span class="slider round"></span>
+      </label>
+    </span>
+  </p>
+    <script src="popup.js"></script>
+  </body>
+</html>
