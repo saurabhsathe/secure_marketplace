@@ -1,3 +1,6 @@
+#export FLASK_APP=app.py
+#FLASK_ENV=development
+#flask run
 from flask import Flask, request, jsonify, json 
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
@@ -7,6 +10,7 @@ from nltk.corpus import stopwords
 import string
 
 app = Flask(__name__)
+app.debug = True
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -30,6 +34,7 @@ def home():
     return jsonify(reviews), 200
 
 @app.route("/scrape/<page_no>",methods=['POST'])
+@cross_origin()
 def scrape_listing(page_no):
     #print(page_no)
     new_scraper = AmazonScraper()
