@@ -47,5 +47,5 @@ def scrape_amazon(search_term):
     # introduce some delay before making the next request
     time.sleep(5)
 
-results = scrape_amazon("iphone")
-print(results)
+#results = scrape_amazon("iphone")
+#print(results)

@@ -4,6 +4,7 @@
 from flask import Flask, request, jsonify, json 
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
+from amazon_listings_scraper import scrape_amazon
 from ml.test_authenticity import test_authenticity
 import pickle
 from nltk.corpus import stopwords
@@ -55,6 +56,11 @@ def predict_ratings():
     x,y = test_authenticity(reviews,pipeline)
     return jsonify({"result":x,"percentage":y}), 200
 
+@app.route("/listings/<item_name>",methods=['POST'])
+def get_listings(item_name):
+ 
+    item_list = scrape_amazon(item_name)
+    return jsonify(item_list), 200
 
 if __name__ == '__main__':
     app.run(port=4444)
