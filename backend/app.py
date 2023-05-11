@@ -1,7 +1,7 @@
 #export FLASK_APP=app.py
 #FLASK_ENV=development
 #flask run
-from flask import Flask, request, jsonify, json 
+from flask import Flask, request, jsonify, json
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
 from amazon_listings_scraper import scrape_amazon
@@ -24,13 +24,13 @@ def text_process(review):
 
 with open('ml/pipeline.pkl', 'rb') as inp:
         pipeline = pickle.load(inp)
-    
+
 
 @app.route("/",methods=['POST'])
 @cross_origin()
 def home():
     reviews = {'rating': 'A'}
-    
+
     print(reviews)
     return jsonify(reviews), 200
 
@@ -49,21 +49,18 @@ def scrape_listing(page_no):
 #this API will give us the results"
 @app.route("/predict",methods=['POST'])
 def predict_ratings():
- 
+
     data = request.get_json(force=True)
     #print(data["reviews"])
     reviews = data["reviews"]
     x,y = test_authenticity(reviews,pipeline)
     return jsonify({"result":x,"percentage":y}), 200
 
-@app.route("/listings/<item_name>",methods=['POST'])
+@app.route("/listings/<item_name>",methods=['GET'])
 def get_listings(item_name):
- 
+
     item_list = scrape_amazon(item_name)
     return jsonify(item_list), 200
 
 if __name__ == '__main__':
     app.run(port=4444)
-
-
-
