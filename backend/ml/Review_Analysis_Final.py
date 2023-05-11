@@ -39,7 +39,10 @@ def clean_text(text):
 
 
 def preprocess(text):
-    return ' '.join([word for word in word_tokenize(text) if word not in stopwords.words('english') and not word.isdigit() and word not in string.punctuation])
+    # print("------------->")
+    # print(text)
+    # print("------------->")
+    return ' '.join([word for word in word_tokenize(text.comment) if word not in stopwords.words('english') and not word.isdigit() and word not in string.punctuation])
 
 
 stemmer = PorterStemmer()

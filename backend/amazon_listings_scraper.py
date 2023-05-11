@@ -9,9 +9,9 @@ headers = {
     "Referer": "https://www.amazon.com/"
 }
 
-def scrape_amazon(search_term):
+def scrape_amazon(search_term, page_no):
     base_url = "https://www.amazon.com/s?k="
-    url = base_url + search_term.replace(' ', '+')
+    url = base_url + search_term.replace(' ', '+') + "&page=" + str(page_no)
     items = []
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
@@ -37,7 +37,8 @@ def scrape_amazon(search_term):
                 image_url = result.img['src']
                 product_url = 'https://amazon.com' + result.h2.a['href']
                 # print(rating_count, product_url)
-                items.append({ "product_name" : product_name,
+                if "/gp/slredirect" not in result.h2.a['href']:
+                    items.append({ "product_name" : product_name,
                                "rating": rating,
                                "rating_count": rating_count,
                                "price": price,
