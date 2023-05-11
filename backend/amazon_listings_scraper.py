@@ -34,16 +34,23 @@ def scrape_amazon(search_term):
                 price1 = result.find('span', {'class': 'a-price-whole'}).text
                 price2 = result.find('span', {'class': 'a-price-fraction'}).text
                 price = price1 + price2
+                image_url = result.img['src']
                 product_url = 'https://amazon.com' + result.h2.a['href']
                 # print(rating_count, product_url)
-                items.append([product_name, rating, rating_count, price, product_url])
+                items.append({ "product_name" : product_name,
+                               "rating": rating,
+                               "rating_count": rating_count,
+                               "price": price,
+                               "product_url" : product_url,
+                               "image_url" : image_url,
+                               "mktplace": "Amazon"})
             except AttributeError:
                 continue
 
         return items
     else:
         print(f"Request failed with status code: {response.status_code}")
-    
+
     # introduce some delay before making the next request
     time.sleep(5)
 
