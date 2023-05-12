@@ -365,6 +365,25 @@
               // Create a new <option> element for each item
               var listItem = document.createElement("div");
 
+              //Rating color
+              var rating_color = 'grey'
+              switch (item.safemart_rating.result) {
+                case 'A':
+                  rating_color = 'success-color';
+                  break;
+                case 'B':
+                  rating_color = 'warning-color';
+                  break;
+                case 'C':
+                  rating_color = 'warning-color-dark';
+                  break;
+                case 'D':
+                  rating_color = 'danger-color';
+                  break;
+                default:
+                  rating_color = 'grey';
+              }
+
               // Set the text content of the new <div> element
               listItem.classList.add("col-lg-3");
               listItem.classList.add("col-md-6");
@@ -393,7 +412,7 @@
                               <h5>
                                 <strong>
                                   <a href="${item.product_url}" class="dark-grey-text">${item.product_name}
-                                    <span class="badge badge-pill danger-color">D</span>
+                                    <span class="badge badge-pill ${rating_color}">${item.safemart_rating.result}</span>
                                   </a>
                                 </strong>
                               </h5>
