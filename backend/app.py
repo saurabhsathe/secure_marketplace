@@ -76,6 +76,23 @@ def get_listings_with_ratings(item_name):
             #print(x, y)
     return jsonify(item_list), 200
 
+@app.route("/reviews",methods=['POST'])
+def get_reviews_with_ratings():
+    
+    data = request.get_json(force=True)
+    url = data["url"].replace("www.", "")
+    new_comment_scraper = AmazonScraper()
+    item ={}
+    reviews = new_comment_scraper.scrapeReviews(url, 1)
+    #print(reviews)
+    if len(reviews) == 0:
+        item['safemart_rating'] = ({"result":'-',"percentage":1})
+    else:
+        x,y = test_authenticity(reviews, pipeline)
+        item['safemart_rating'] = ({"result":x,"percentage":y})
+        #print(x, y)
+    return jsonify(item), 200
+
 if __name__ == '__main__':
     app.run(port=4444)
 
