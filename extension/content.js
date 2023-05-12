@@ -260,6 +260,33 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
         });
       });
     });
+    function getAttr(rating) {
+      if (rating == "A") {
+        cssText =
+          "width:46px !important;clear:both !important;background-color:#73D448 !important;border:1px solid #68bf41 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      } else if (rating == "B") {
+        rcssText =
+          "width:46px !important;clear:both !important;background-color:#0095EA !important;border:1px solid #0086d3 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      } else if (rating == "C") {
+        cssText =
+          "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      } else if (rating == "D") {
+        cssText =
+          "width:46px !important;clear:both !important;background-color:#FB8746 !important;border:1px solid #e27a3f !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      } else if (rating == "E") {
+        cssText =
+          "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      } else {
+        cssText =
+          "width:46px !important;clear:both !important;background-color:#A52222 !important;border:1px solid #951f1f !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+        return cssText;
+      }
+    }
     chrome.storage.sync.get("ratingsEnabled", function (data) {
       if (data.ratingsEnabled == true) {
         const imagePoster = document.querySelectorAll(
@@ -272,10 +299,13 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
             var rating = document.createElement("span");
 
             rating.className = "prod-rating";
-            rating.style.cssText =
-              "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+            //rating.style.cssText =
+              //"width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
             const random = Math.floor(Math.random() * letters.length);
-            rating.innerHTML = letters[random];
+            const rat = letters[random];
+            const cssT = getAttr(rat)
+            rating.style.cssText = cssT
+            rating.innerHTML = rat
             console.log("RATINGGG3", rating);
             imagePoster[i].prepend(rating);
             console.log("HEREEEEEE", imagePoster);
@@ -308,16 +338,16 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
         var data = new URLSearchParams();
         data.set("listing_url", m.input);
 
-        fetch("http://127.0.0.1:5000/", {
+        fetch("http://127.0.0.1:4444/reviews", {
           method: "POST",
           //mode: "no-cors",
 
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ listing_url: m.input })
+          body: JSON.stringify({ url: m.input })
         }).then((response) => {
           if (response.ok) {
-            response.json().then((json) => {
-              console.log(json);
+            response.json().then((res) => {
+              console.log(res.safemart_rating);
 
               const imagePoster = document.querySelectorAll(
                 "div[class='a-section a-spacing-none a-padding-none']"
@@ -334,10 +364,49 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
                 rating.className = "prod-rating";
                 //rating.style.cssText =
                 //'-webkit-text-size-adjust: 100%; font-size: 14px; line-height: 20px; color: #0F1111; font-family: "Amazon Ember",Arial,sans-serif; direction: ltr; text-align: center; position: relative !important; display: flex !important; justify-content: center !important; height: 26px !important; width: 63px !important; top: 3px !important; background-color: rgba(255, 255, 255, 0.9) !important; border-radius: 2px !important; overflow: hidden !important; padding: 3px 6px !important; z-index: 105 !important; box-sizing: border-box !important; border: 1px solid #999CA1 !important; margin-left: 3px !important; left: 3px !important;';
-                rating.style.cssText =
-                  "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+
                 const random = Math.floor(Math.random() * letters.length);
-                rating.innerHTML = json.rating;
+                if (
+                  res.safemart_rating.percentage <= 100 &&
+                  res.safemart_rating.percentage > 80
+                ) {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#73D448 !important;border:1px solid #68bf41 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "A";
+                } else if (
+                  res.safemart_rating.percentage <= 80 &&
+                  res.safemart_rating.percentage > 60
+                ) {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#0095EA !important;border:1px solid #0086d3 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "B";
+                } else if (
+                  res.safemart_rating.percentage <= 60 &&
+                  res.safemart_rating.percentage > 40
+                ) {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "C";
+                } else if (
+                  res.safemart_rating.percentage <= 40 &&
+                  res.safemart_rating.percentage > 30
+                ) {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#FB8746 !important;border:1px solid #e27a3f !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "D";
+                } else if (
+                  res.safemart_rating.percentage <= 30 &&
+                  res.safemart_rating.percentage > 10
+                ) {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "E";
+                } else {
+                  rating.style.cssText =
+                    "width:46px !important;clear:both !important;background-color:#A52222 !important;border:1px solid #951f1f !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
+                  rating.innerHTML = "F";
+                }
+
                 console.log("PRODUCT RATING", rating);
                 imagePoster[i].prepend(rating);
                 var subHead = document.createElement("span");
@@ -374,6 +443,7 @@ chrome.storage.sync.get("extensionEnabled", function (data) {
             rating.style.cssText =
               "width:46px !important;clear:both !important;background-color:#FFC651 !important;border:1px solid #e6b249 !important;border-radius:3px !important;height:31px !important;color:#FFFFFF !important;font-size:24px !important;font-weight:700 !important;text-align:center !important;line-height:28px !important;box-sizing:border-box !important;user-select:none !important;text-decoration:none !important;display:block !important;margin-right:8px !important;margin-top:0 !important;opacity:1 !important;";
             const random = Math.floor(Math.random() * letters.length);
+
             rating.innerHTML = letters[random];
             console.log("RATINGGG WALMARTSS", rating);
             imagePoster[i].prepend(rating);
