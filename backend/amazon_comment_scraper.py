@@ -7,7 +7,7 @@ UserReview = namedtuple('UserReview', ['product_name', 'review_title', 'comment'
 
 class AmazonScraper:
     review_date_pattern = re.compile('(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) \d+, \d{4}')
-    product_name_pattern = re.compile('^https:\/{2}www.amazon.com\/(.+)\/product-reviews')
+    product_name_pattern = re.compile('^https:\/{2}amazon.com\/(.+)\/product-reviews')
     def __init__(self):
         # create a browser session
         self.session = requests.Session()
@@ -26,11 +26,15 @@ class AmazonScraper:
         """
         try:
             review_url = re.search('^.+(?=\/)', url).group()
-            review_url = review_url + '?reviewerType=all_reviews&sortBy={0}&pageNumber={1}'.format(filter_by, page_num)
+            #print(review_url + "--------------->")
+            #actual_url = requests.get(review_url)
+            #print(actual_url.url)
+            review_url = review_url.replace('/dp/', '/product-reviews/') + '?reviewerType=all_reviews&sortBy={0}&pageNumber={1}'.format(filter_by, page_num)
             print('Processing {0}...'.format(review_url))
             response = self.session.get(review_url)
 
-            product_name = self.product_name_pattern.search(url).group(1) if self.product_name_pattern.search(url) else ''
+            product_name = self.product_name_pattern.search(review_url).group(1) if self.product_name_pattern.search(review_url) else ''
+            #print(self.product_name_pattern.search(review_url))
             if not product_name:
                 print('url is invalid. Please check the url.')
                 return

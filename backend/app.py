@@ -1,10 +1,11 @@
 #export FLASK_APP=app.py
 #FLASK_ENV=development
 #flask run
-from flask import Flask, request, jsonify, json
+from flask import Flask, request, jsonify, json 
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
 from amazon_listings_scraper import scrape_amazon
+#from amazon_predict_rating import get_listings_with_ratings
 from ml.test_authenticity import test_authenticity
 import pickle
 from nltk.corpus import stopwords
@@ -24,13 +25,13 @@ def text_process(review):
 
 with open('ml/pipeline.pkl', 'rb') as inp:
         pipeline = pickle.load(inp)
-
+    
 
 @app.route("/",methods=['POST'])
 @cross_origin()
 def home():
     reviews = {'rating': 'A'}
-
+    
     print(reviews)
     return jsonify(reviews), 200
 
@@ -49,7 +50,7 @@ def scrape_listing(page_no):
 #this API will give us the results"
 @app.route("/predict",methods=['POST'])
 def predict_ratings():
-
+ 
     data = request.get_json(force=True)
     #print(data["reviews"])
     reviews = data["reviews"]
@@ -57,10 +58,26 @@ def predict_ratings():
     return jsonify({"result":x,"percentage":y}), 200
 
 @app.route("/listings/<item_name>",methods=['GET'])
-def get_listings(item_name):
-
-    item_list = scrape_amazon(item_name)
+def get_listings_with_ratings(item_name):
+    item_list = scrape_amazon(item_name, 1)
+    #print(item_list)
+    #item_list.extend(scrape_amazon(item_name, 2))
+    #print(item_list)
+    for item in item_list:
+        #print(item)
+        new_comment_scraper = AmazonScraper()
+        reviews = new_comment_scraper.scrapeReviews(item["product_url"], 1)
+        #print(reviews)
+        if len(reviews) == 0:
+            item['safemart_rating'] = ({"result":'-',"percentage":1})
+        else:
+            x,y = test_authenticity(reviews, pipeline)
+            item['safemart_rating'] = ({"result":x,"percentage":y})
+            #print(x, y)
     return jsonify(item_list), 200
 
 if __name__ == '__main__':
     app.run(port=4444)
+
+
+
