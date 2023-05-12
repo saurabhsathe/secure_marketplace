@@ -19,7 +19,8 @@ from nltk import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 nltk.download('wordnet')
-
+nltk.download('punkt')
+nltk.download('stopwords')
 
 # In[2]:
 

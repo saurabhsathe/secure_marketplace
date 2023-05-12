@@ -14,6 +14,8 @@ def scrape_amazon(search_term, page_no):
     url = base_url + search_term.replace(' ', '+') + "&page=" + str(page_no)
     items = []
     response = requests.get(url, headers=headers)
+    #html_content = response.content
+    #print("response ", html_content)
     if response.status_code == 200:
         html_content = response.content
         #print("response ", html_content)
@@ -26,7 +28,11 @@ def scrape_amazon(search_term, page_no):
 
             try:
                 rating = result.find('i', {'class': 'a-icon'}).text
-                rating_count = result.find_all('span', {'aria-label': True})[1].text
+                rating_count_element = result.find_all('span', {'aria-label': True})
+                if rating_count_element and len(rating_count_element) > 1:
+                    rating_count = rating_count_element[1].text
+                else:
+                    rating_count = 0
             except AttributeError:
                 continue
 
@@ -55,5 +61,5 @@ def scrape_amazon(search_term, page_no):
     # introduce some delay before making the next request
     time.sleep(5)
 
-#results = scrape_amazon("iphone")
-#print(results)
+# results = scrape_amazon("iphone",1)
+# print(results)
