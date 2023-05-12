@@ -33,13 +33,13 @@ def test_authenticity(sentences,pipeline = None):
     
     
     
-    
+    print("here is a list of sententences",temp3)
     x = list(pipeline.predict(temp3))
     real= x.count("OR")
     fake = x.count("CG")
-    
+    print(real,fake)
     #return "Real",(real//(real+fake)) if fake<real else "Fake",(fake//(real+fake))
-    return ("Real",real//(real+fake)) if fake<real else ("Fake",fake//(real+fake))
+    return ("Fake",(fake/(real+fake))*100) if fake>real else ("Real",(real/(real+fake))*100)
 
 
 #print(test_authenticity("I like it, just wish it had more wide opening. I also love that it's been made"))
