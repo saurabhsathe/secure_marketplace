@@ -9,7 +9,7 @@ def scrape_ebay(search_text):
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content, 'html.parser')
     listings = soup.find_all('li', class_='s-item')
-    print(len(listings))
+    #print(len(listings))
     items = []
     for item in listings:
         product_name = item.find('div', class_='s-item__title').text.strip()

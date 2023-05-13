@@ -47,7 +47,7 @@ def scrape_amazon(search_term, page_no):
                     items.append({ "product_name" : product_name,
                                "rating": rating,
                                "rating_count": rating_count,
-                               "price": price,
+                               "price": '$'+ price,
                                "product_url" : product_url,
                                "image_url" : image_url,
                                "mktplace": "Amazon"})

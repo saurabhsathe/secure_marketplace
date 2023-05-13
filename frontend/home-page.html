@@ -52,7 +52,7 @@
     <div class="container">
 
       <!-- Brand -->
-      <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+      <a class="navbar-brand waves-effect" href="./home-page.html">
         <strong class="blue-text">SafeMart</strong>
       </a>
 
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About Fraud Rating</a>
+            <a class="nav-link waves-effect" href="./about-page.html">About Fraud Rating</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
@@ -156,27 +156,26 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">Marketplace</a>
               <ul class="dropdown-menu" role="menu">
-                <li><a class="dropdown-item" href="#">Amazon</a></li>
-                <li><a class="dropdown-item" href="#">Ebay</a></li>
-                <li><a class="dropdown-item" href="#">Walmart</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByMktPlace('Amazon')">Amazon</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByMktPlace('Ebay')">Ebay</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByMktPlace('All')">All</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">Fraud Rating</a>
               <ul class="dropdown-menu" role="menu">
-                <li><a class="dropdown-item" href="#">A</a></li>
-                <li><a class="dropdown-item" href="#">B and above</a></li>
-                <li><a class="dropdown-item" href="#">C and above</a></li>
-                <li><a class="dropdown-item" href="#">D and above</a></li>
-                <li><a class="dropdown-item" href="#">E and above</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByFraudRating('A')">A</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByFraudRating('B')">B and above</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByFraudRating('C')">C and above</a></li>
+                <li><a class="dropdown-item" href="#" onClick="filterByFraudRating('D')">D and above</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"  aria-expanded="false">Sort By</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a class="dropdown-item" href="#">Fraud Rating</a></li>
-                  <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
-                  <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
+                  <li><a class="dropdown-item" href="#" onClick="sortByRating()">Fraud Rating</a></li>
+                  <li><a class="dropdown-item" href="#" onClick="sortByPriceLowToHigh()">Price: Low to High</a></li>
+                  <li><a class="dropdown-item" href="#" onClick="sortByPriceHighToLow()">Price: High to Low</a></li>
                   <li><a class="dropdown-item" href="#">Reviews</a></li>
                 </ul>
             </li>
@@ -339,10 +338,85 @@
     //         dropdown.add(option);
     //     }
     //   }
-
+    var globalSearchResults = [];
+    const ratingOrder = { A: 1, B: 2, C: 3, D: 4 };
     document.getElementById("search-button").addEventListener("click", function(event){
       event.preventDefault()
     });
+
+
+    function filterByMktPlace(mktplace){
+      console.log("Filtering by "+mktplace)
+      if(mktplace == "All"){
+        populateResults(globalSearchResults);
+        return;
+      }
+
+      filteredProducts = globalSearchResults.filter((globalSearchResults) => {
+        return globalSearchResults.mktplace === mktplace;
+      });
+
+      populateResults(filteredProducts);
+    }
+
+    function filterByFraudRating(rating){
+      console.log("Filtering by "+rating)
+      filteredProducts = []
+      if(rating == "A"){
+        filteredProducts = globalSearchResults.filter(product => product.safemart_rating.result === 'A')
+      } else if(rating == "B"){
+        filteredProducts = globalSearchResults.filter(product => product.safemart_rating.result === 'A'|| product.safemart_rating.result === 'B')
+      }  else if(rating == "C"){
+        filteredProducts = globalSearchResults.filter(product => product.safemart_rating.result === 'A'|| product.safemart_rating.result === 'B'|| product.safemart_rating.result === 'C')
+      } else {
+        filteredProducts = globalSearchResults.filter(product => product.safemart_rating.result === 'A'|| product.safemart_rating.result === 'B'|| product.safemart_rating.result === 'C' || product.safemart_rating.result === 'D')
+      }
+
+      populateResults(filteredProducts);
+    }
+
+    function sortByRating() {
+      console.log("Sorting by rating")
+      globalSearchResults.sort((a,b) => ratingOrder[a.safemart_rating.result] - ratingOrder[b.safemart_rating.result]);
+      populateResults(globalSearchResults);
+    }
+
+    function sortByPriceLowToHigh() {
+      console.log("Sorting by price low to high")
+      globalSearchResults.sort((a,b) => {
+        price_a = a.price.trim()
+        if(price_a != "")
+          price_a = parseFloat(price_a.substring(1).replace(',', ''))
+
+        price_b = b.price.trim()
+        if(price_b != "")
+          price_b = parseFloat(price_b.substring(1).replace(',', ''))
+
+        return price_a - price_b;
+      });
+      populateResults(globalSearchResults);
+      console.log(globalSearchResults)
+    }
+
+    function sortByPriceHighToLow() {
+      console.log("Sorting by price high to low")
+      globalSearchResults.sort((a,b) => {
+        price_a = a.price.trim();
+
+        if(price_a != "")
+          price_a = parseFloat(price_a.substring(1).replace(',', ''))
+          //console.log(price_a)
+
+        price_b = b.price.trim();
+        if(price_b != "")
+          price_b = parseFloat(price_b.substring(1).replace(',', ''))
+          //console.log(price_b)
+
+        return price_b - price_a;
+      });
+      populateResults(globalSearchResults);
+      console.log(globalSearchResults)
+    }
 
     function fetchData(){
 
@@ -360,6 +434,17 @@
             return response.json();
           })
           .then(function(json) {
+            globalSearchResults = json
+            populateResults(json);
+          });
+
+        // Add the <select> element to the page
+        //document.body.appendChild(select);
+    }
+
+    function populateResults(json){
+            var searchResults = document.getElementById("result-items");
+            searchResults.innerHTML = "";
             // Loop through the JSON array of items
             json.forEach(function(item) {
               // Create a new <option> element for each item
@@ -436,11 +521,7 @@
               // Add the <option> element to the <select>
               searchResults.appendChild(listItem);
             });
-          });
-
-        // Add the <select> element to the page
-        //document.body.appendChild(select);
-    }
+          }
 
 
   </script>
