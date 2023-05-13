@@ -1,7 +1,7 @@
 #export FLASK_APP=app.py
 #FLASK_ENV=development
 #flask run
-from flask import Flask, request, jsonify, json
+from flask import Flask, request, jsonify, json, render_template, url_for, session, redirect, flash
 from flask_cors import CORS, cross_origin
 from amazon_comment_scraper import AmazonScraper
 from amazon_listings_scraper import scrape_amazon
@@ -12,11 +12,25 @@ import pickle
 from nltk.corpus import stopwords
 import string
 import random
+import pymongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from flask_pymongo import PyMongo
+import bcrypt
 
-app = Flask(__name__)
+#uri = "mongodb+srv://admin:admin@safemartcluster.oamjwqk.mongodb.net/?retryWrites=true&w=majority"
+
+app = Flask(__name__, template_folder='../frontend')
+app.secret_key = "testing"
+client = pymongo.MongoClient("mongodb+srv://admin:admin@safemartcluster.oamjwqk.mongodb.net/?retryWrites=true&w=majority")
+db = client.get_database('SafeMart')
+records = db.User
 app.debug = True
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+#mongo = PyMongo(app)
 
 pipeline=None
 
@@ -33,11 +47,94 @@ max_list_processing_count = 12
 
 @app.route("/",methods=['POST'])
 @cross_origin()
-def home():
+def home_page():
     reviews = {'rating': 'A'}
 
     print(reviews)
     return jsonify(reviews), 200
+
+@app.route("/signup", methods=['POST', 'GET'])
+def signup():
+    message = ''
+    if "email" in session:
+        return redirect(url_for("home"))
+    if request.method == "POST":
+        user = request.form.get("fullname")
+        email = request.form.get("email")
+        
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+        
+        email_found = records.find_one({"email": email})
+        if email_found:
+            message = 'This email already exists in database'
+            return render_template('login.html', message=message)
+        if password1 != password2:
+            message = 'Passwords should match!'
+            return render_template('signup.html', message=message)
+        else:
+            hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+            user_input = {'name': user, 'email': email, 'password': hashed}
+            records.insert_one(user_input)
+            
+            user_data = records.find_one({"email": email})
+            new_email = user_data['email']
+   
+            session["email"] = new_email
+            return redirect(url_for('home'))
+    return render_template('signup.html', message=message)
+
+@app.route('/home')
+def home():
+    if "email" in session:
+        email = session["email"]
+        return render_template('home-page.html', email=email)
+    else:
+        return redirect(url_for("login"))
+    
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    message = 'Please login to your account'
+    if "email" in session:
+        print(session["email"])
+        return redirect(url_for('home'))
+
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+       
+        email_found = records.find_one({"email": email})
+        if email_found:
+            email_val = email_found['email']
+            passwordcheck = email_found['password']
+            
+            if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
+                session["email"] = email_val
+                return redirect(url_for('home'))
+            else:
+                if "email" in session:
+                    return redirect(url_for('home'))
+                message = 'Wrong password'
+                return render_template('login.html', message=message)
+        else:
+            message = 'Email not found'
+            return render_template('login.html', message=message)
+    print("-------->")
+    print("email" in session)
+    return render_template('login.html', message=message)
+
+@app.route("/logout", methods=["POST", "GET"])
+def logout():
+    if "email" in session:
+        session.pop("email", None)
+        #print(session["email"])
+        return render_template("login.html")
+    else:
+        print(session)
+        #print(session["email"] or None)
+        return render_template('login.html')
 
 @app.route("/scrape/<page_no>",methods=['POST'])
 @cross_origin()
@@ -71,7 +168,6 @@ def get_listings_with_ratings(item_name):
     #item_list.extend(scrape_amazon(item_name, 2))
     #print(item_list)
     for item in item_list:
-        #print(item)
         new_comment_scraper = AmazonScraper()
         reviews = new_comment_scraper.scrapeReviews(item["product_url"], 1)
         # print("*********** REVIEWS *******")
