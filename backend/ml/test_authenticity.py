@@ -12,7 +12,7 @@ sentences = ["This pillow saved my back. I love the look and feel of this pillow
 
 
 def test_authenticity(sentences,pipeline = None):
-    
+
     #preprocess
     temp1=[]
     for sentence in sentences:
@@ -25,19 +25,19 @@ def test_authenticity(sentences,pipeline = None):
     temp3=[]
     for s2 in temp2:
         temp3.append(model.lemmatize_words(s2))
-    
+
     cv=None
     tfidf=None
     classifier=None
-    
-    
-    
-    
-    print("here is a list of sententences",temp3)
+
+
+
+
+    #print("here is a list of sententences",temp3)
     x = list(pipeline.predict(temp3))
     real= x.count("OR")
     fake = x.count("CG")
-    print(real,fake)
+    #print(real,fake)
     #return "Real",(real//(real+fake)) if fake<real else "Fake",(fake//(real+fake))
     return ("Fake",(fake/(real+fake))*100) if fake>real else ("Real",(real/(real+fake))*100)
 

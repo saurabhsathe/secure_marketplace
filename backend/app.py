@@ -29,6 +29,7 @@ with open('ml/pipeline.pkl', 'rb') as inp:
         pipeline = pickle.load(inp)
 
 possible_ratings = {'A', 'B', 'C', 'D'}
+max_list_processing_count = 12
 
 @app.route("/",methods=['POST'])
 @cross_origin()
@@ -64,6 +65,8 @@ def predict_ratings():
 def get_listings_with_ratings(item_name):
     #item_list = []
     item_list = scrape_amazon(item_name, 1)
+    if item_list and len(item_list) > max_list_processing_count:
+        item_list = item_list[:max_list_processing_count]
     #print(item_list)
     #item_list.extend(scrape_amazon(item_name, 2))
     #print(item_list)
@@ -78,9 +81,25 @@ def get_listings_with_ratings(item_name):
             item['safemart_rating'] = ({"result":'-',"percentage":1})
         else:
             x,y = test_authenticity(reviews, pipeline)
-            item['safemart_rating'] = ({"result":x,"percentage":y})
+            y = float(y)
+            # print("----> ", y)
+            a_rating = '-'
+            if y >= 90:
+                a_rating = 'A'
+            elif y >= 80:
+                a_rating = 'B'
+            elif y >= 70:
+                a_rating = 'C'
+            else:
+                a_rating = 'D'
+            item['safemart_rating'] = ({"result":a_rating,"percentage":y})
             #print(x, y)
+
+    #ebay
     item_list_ebay = scrape_ebay(item_name)
+    if item_list_ebay and len(item_list_ebay) > max_list_processing_count:
+        item_list_ebay = item_list_ebay[:max_list_processing_count]
+
     for item in item_list_ebay:
         rating = random.choice(list(possible_ratings))
         item['safemart_rating'] = ({"result":rating,"percentage":1})
@@ -92,7 +111,7 @@ def get_listings_with_ratings(item_name):
 
 @app.route("/reviews",methods=['POST'])
 def get_reviews_with_ratings():
-    
+
     data = request.get_json(force=True)
     url = data["url"].replace("www.", "")
     new_comment_scraper = AmazonScraper()
